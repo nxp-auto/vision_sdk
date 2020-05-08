@@ -1,149 +1,244 @@
-OpenEmbedded/Yocto Linux BSP for NXP Auto platforms
-===================================================
+NXP Vision SDK (VSDK) RTM 1.6.0 Yocto Project Manifests
+    for Advanced driver-assistance systems (ADAS)
+==========================================================
+
+NXP Vision SDK Yocto Project Manifests provides support for the NXP Vision SDK to
+integrate Linux BSP Yocto Layer by using Meta-adas Yocto Layer.
+This provides a user-friendly interface to create a complete Linux distribution
+image containing the VSDK functionalities.
+In the process of image generation, the following tasks are automatically
+executed as part of the meta-adas functionalities:
+- Device tree update to add the VSDK requirements
+- VSDK Kernel modules build and deployment
+- VSDK demos and applications build and deployment
+- Build and deploy of 3-rd party libraries dependencies for VSDK
+- Deploy the VSDK binaries to root file system and generate the SD card image
 
 
 First time setup
-----------------
+================
 
-To get the BSP you need to have `repo` installed and its prerequisites.
+To get the Vision SDK Yocto Project Manifests you need to have `repo` and
+its prerequisites installed.
 This only needs to be done once.
 
 
-Install dependencies:
-- python 2.x - 2.6 or newer ($: sudo <pkg-mgr> install python)
-- git 1.8.3 or newer ($: sudo <pkg-mgr> install git)
-- curl ($: sudo <pkg-mgr> install curl)
-where <pkg-mgr> is the package manager for your distribution
-(apt-get for Debian/Ubuntu, yum or dnf for CentOS/Fedora, zypper for Suse).
+Install Desktop PC dependencies:
+  - python 2.x - 2.6 or newer ($: sudo apt-get install python)
+  - git 1.8.3 or newer ($: sudo apt-get install git)
+  - curl ($: sudo apt-get install curl)
+  - gcc 4.9.x to 5.x ($: sudo apt-get install gcc)
+  - Ubuntu 14.04 LTS or Ubuntu 16.04 LTS are supported
+
 
 Install the `repo` utility:
 
-$: mkdir ~/bin
-$: curl http://commondatastorage.googleapis.com/git-repo-downloads/repo  > ~/bin/repo
-$: chmod a+x ~/bin/repo
-$: PATH=${PATH}:~/bin
+    $: mkdir ~/bin
+    $: curl http://commondatastorage.googleapis.com/git-repo-downloads/repo  > ~/bin/repo
+    $: chmod a+x ~/bin/repo
+    $: PATH=${PATH}:~/bin
 
 
-Download the Yocto Project Environment into your directory:
------------------------------------------------------------
+Download the Vision SDK Yocto Project Manifests into your directory:
+====================================================================
 
-$: mkdir fsl-auto-yocto-bsp
-$: cd fsl-auto-yocto-bsp
-$: repo init -u https://source.codeaurora.org/external/autobsps32/auto_yocto_bsp -b alb/master
-$: repo sync
-
-This will download the sources for the latest NXP Auto Linux BSP (from the branch alb/master),
-structured ontop of the Yocto rocko release and upstream NXP QorIQ SDK.
-
-Note: for another Linux BSP release or engineering build, please use the corresponding branch and manifest.
-
-The repository provides more manifest files, particularized for different use cases.
+The repository provides two manifest files, particularized for different use
+cases.
 The desired manifest file is selected by specifying it in the repo init command,
 using parameter -m <manifest file>
+
 The manifests are delivered in two formats:
-<manifest>.xml and <manifest>-bitbucket.xml. The second would allow fetching
-internal bitbucket development repositories as specified in the note above.
+ - adas.xml -> it should allow fetching external repositories
+               (e.i. https://source.codeaurora.org)
+ - adas-bitbucket.xml -> it would allow fetching internal bitbucket development
+                         repositories.
 
-The manifest files (different than the default one) are documented below.
+NXP external repositories adas.xml, please use:
 
-NXP internal repositories default-bitbucket.xml, please use:
-    $: repo init -u ssh://git@bitbucket.sw.nxp.com/alb/auto_yocto_bsp.git -b develop -m default-bitbucket.xml
+    $: mkdir fsl-auto-yocto-vsdk
+    $: cd fsl-auto-yocto-vsdk
+    $: repo init -u repo init -u https://source.codeaurora.org/external/autobsps32/extra/vision-sdk -b vision_sdk_rtm_1.6.0 -m adas.xml
     $: repo sync
 
-adas.xml / adas-bitbucket.xml
-    This manifest extends the default manifest with the meta-adas layer,
-    allowing complete integration of VSDK into the Yocto build.
-    For more details, please see the meta-adas documentation in sources/meta-adas/README
+This will download the sources for the NXP Auto Linux BSP23.0 intagrated into
+Vision SDK.
 
-    $: repo init -u https://source.codeaurora.org/external/autobsps32/auto_yocto_bsp -b alb/master -m adas.xml
+NXP internal repositories adas-bitbucket.xml, please use:
 
-aa-integration.xml / aa-integration-bitbucket.xml
-    This manifest extends the default manifest with the meta-aa-integration layer,
-    allowing complete integration of Adaptive Autosar R18-10 into the Yocto build.
-    For more details, please see the meta-aa-integration documentation in sources/meta-aa-integration/README
-
-    $: repo init -u https://source.codeaurora.org/external/autobsps32/auto_yocto_bsp -b alb/master -m aa-integration.xml
-
-Creating a Build Directory for a BSP release:
----------------------------------------------
-
-Now you can create a build directory in the BSP root by running the command:
-
-$ . nxp-setup-alb.sh -m <machine>
-
-where:
-<machine>	is any NXP Auto target, e.g. s32v234evb, s32v234bbmini, ls2084abbmini etc.
+    $: mkdir fsl-auto-yocto-vsdk
+    $: cd fsl-auto-yocto-vsdk
+    $: repo init -u https://bitbucket.sw.nxp.com/scm/vswat/vsdk-manifest.git -b vision_sdk_rtm_1.6.0 -m adas-bitbucket.xml
+    $: repo sync
 
 
-Build an image:
----------------
+Creating a Build Directory for a NXP Vision SDK Yocto release:
+==============================================================
 
-In the buid directory created by the setup script, you can run the command:
+Now you can create a build directory in the Vision SDK Yocto root by running
+the command:
 
-$ bitbake <image-name>
+    $: . nxp-setup-alb.sh -m <machine>
 
-For the NXP Auto BSP, you may use as <image-name> any of the Auto images , e.g.
-`fsl-image-base`, `fsl-image-auto`, `fsl-image-ubuntu`, `fsl-image-ubuntu-base`.
+    where:
+       <machine> is any Vsion SDK target (e.g. s32v234sbc, s32v234evb, s32v234bbmini etc).
 
-Running the above command would be enough to completely build u-boot, kernel, modules,
-and a rootfs ready to be deployed. Look for a build result in
-`build_<machine>/tmp/deploy/images/`.
 
-The file `<image-name>.sdcard` is a disk image with all necessary partitions and contains
-the bootloader, kernel and rootfs. You can just low-level copy the data on this file to the
-SD card device using dd as on the following command example:
+Adding Vision SDK RTM 1.6.0 to S32V234 rootfs
+=============================================
 
-$ sudo dd if=<image-name>.sdcard of=/dev/sd<partition> bs=1M && sync
+- The Vision SDK RTM 1.6.0 installer (VisionSDK_S32V2_RTM_1_6_0.bin file) should
+  be available for download in the Automotive SW Vision Software release download
+  section on:
+    https://nxp.flexnetoperations.com/control/frse/product?plneID=713087
 
-Ensure that any partitions on the card are properly unmounted before writing
-the card image, or you may have a corrupted card image in the end.
-Also ensure to properly "sync" the filesystem before ejecting the card to ensure
-all data has been written.
+- Install the Vision SDK RTM 1.6.0 for Yocto integration to a
+  folder of your choice (e.g. “/opt/fsl_local_mirror”):
 
-To deploy only the rootfs to the target partition, run:
-$ sudo tar -xzf <image-name>.tar.gz -C <destination>
-where <destination> is the destination partition (as mounted on the host).
+- Edit the file conf/local.conf  (e.g. build_s32v234evb_release/conf/local.conf)
+  in your build folder to specify the path to the VSDK folder. For example:
 
-Note that builds with bitbake accumulate in the deployment directory.
-You may want to delete older irrelevant images after repeated builds.
-The very first build ever will take very long because a lot of one-time house keeping
-and building has to happen. You want to have a powerful build machine.
+      FSL_LOCAL_MIRROR = "file:////opt/fsl_local_mirror/VisionSDK_S32V2_RTM_1_6_0"
 
-Note the SOURCE_THIS file to be used when going back to building with a new shell.
+  Note: the name of s32v234_sdk folder should not be added in the FSL_LOCAL_MIRROR.
+  This is automatically appended in the meta-adas recipes.
 
-Images provided
-===============
+- You also need to confirm that you accept NXP's EULA by adding the following
+  to the build folder's conf/local.conf (e.g. build_s32v234evb_release/conf/local.conf):
 
-fsl-image-ubuntu-base: A system image with a minimalist Ubuntu 16.04 LTS root filesystem
+      ACCEPT_FSL_EULA = "1"
 
-fsl-image-ubuntu: A complete, development-suitable system image based on Ubuntu 16.04 LTS 
-which contains (among others): the complete kernel source code (for rebuilding the kernel directly on the target machine), 
-compilers and toolchains (for C, C++, Java), ROS Kinetic and Docker
+- The VSDK demos depend on ffmpeg library (build time or run time) that
+  has commercial license:
+    see recipes-libs-3rdparty/ffmpeg/ffmpeg_2.8.5.bb
+  In order to use the ffmpeg as dependency into the image, you must acknowledge that
+  you are aware of the ffmpeg license requirements by adding the following line
+  in the conf/local.conf (e.g. build_s32v234evb_release/conf/local.conf):
 
-NOTE: For the most convenient development environment, use of
-fsl-image-auto below is suggested.
-Production embedded projects would likely use much smaller images.
+      LICENSE_FLAGS_WHITELIST_append = " commercial "
 
-fsl-image-auto: A complete system image (containing u-boot, the Linux kernel and DTBs) with a full Yocto-sourced filesystem.
----------------
+- In a typical project the developer will use vanilla VisionSDK libraries,
+  e.g. System Libraries, without any changes as provided by the VisionSDK installer,
+  but Yocto should build everything from scratch, so we change the default behavior
+  to re-build System Libraries.
+  The re-build of System Libraries can be enforced by using the PRE_BUILT_SYSTEM_LIBS
+  variable in conf/local.conf (e.g. build_s32v234evb_release/conf/local.conf):
+    * PRE_BUILT_SYSTEM_LIBS=0 rebuild System Libraries (default)
+    * PRE_BUILT_SYSTEM_LIBS=1 use pre-built System Libraries
+  
+  You can use pre-built System Libraries by adding the following line
+  in the conf/local.conf (e.g. build_s32v234evb_release/conf/local.conf):
 
-The rootfs is fairly reasonable in completeness for basic efforts and
-contains sufficient amount of basic tools for remote connection and
-mounting of NFS or other drives.
+      PRE_BUILT_SYSTEM_LIBS = 1
 
 
 Adding GPU drivers to S32V234 rootfs
 ====================================
 
-Please download the Vivante GPU drivers from nxp.com.
+The GPU archive files GPU_userspace_binaries_and_VTK_tools_6.2.4.zip should be
+available for download in the Linux BSP 23.0 release download section on:
+  http://www:nxp:com/webapp/swlicensing/sso/downloadSoftware:sp?catid=SW32XX-LINUXBSP01D
+
+The archive file contains folders:
+  - Vivante_userspace_libraries_and_demos
+  - Vivante_VTK: Vivante Tool Kit
+
 To add GPU drivers to S32V234 rootfs, follow the steps as below:
 
-- Add the following line in your chosen image script (e.g. meta-alb/recipes-fsl/images/fsl-image-auto.bb):
-    IMAGE_INSTALL += "gpu-viv-bin-s32v2xx"
-- You also need to confirm that you accept NXP's EULA by adding the following to the build folder's conf/local.conf
-  (e.g. build_s32v234evb/conf/local.conf):
-    ACCEPT_FSL_EULA = "1"
-- Use FSL_LOCAL_MIRROR variable to locate the GPU drivers previously downloaded. FSL_LOCAL_MIRROR
-   should be updated as below (e.g. build_s32v234evb_release/conf/local.conf):
-     FSL_LOCAL_MIRROR = "file:///opt/fsl_local_mirror"
-     DISTRO_FEATURES_DEFAULT_append = " gpu"
+  - Add the following line in your chosen image script (e.g. meta-alb/recipes-fsl/images/fsl-image-auto.bb):
+
+        IMAGE_INSTALL += "gpu-viv-bin-s32v2xx"
+
+  - Copy Vivante_userspace_libraries_and_demos and Vivante_VTK folders from
+    the GPU drivers previously downloaded in the location set in FSL_LOCAL_MIRROR
+    variable
+
+  - Add the following line in the conf/local.conf (e.g. build_s32v234evb_release/conf/local.conf):
+
+        DISTRO_FEATURES_DEFAULT_append = " gpu"
+
+
+Build an image:
+===============
+
+In the buid directory created by the setup script, you can run the command:
+
+    $: bitbake fsl-image-vsdk
+
+
+Running the above command would be enough to completely build u-boot, kernel,
+modules, and a rootfs ready to be deployed. Look for a build result in
+`build_<machine>/tmp/deploy/images/`.
+
+The file `<image-name>.sdcard` is a disk image with all necessary partitions and
+contains the bootloader, kernel and rootfs. You can just low-level copy the data
+on this file to the SD card device using dd as on the following command example:
+
+    $: sudo dd if=<image-name>.sdcard of=/dev/sd<partition> bs=1M && sync
+
+
+Make sure that any partitions on the card are properly unmounted before writing
+the card image, or you may have a corrupted card image in the end.
+Also make sure to properly "sync" the filesystem before ejecting the card to ensure
+all data has been written.
+
+To deploy only the rootfs to the target partition, run:
+
+    $: sudo tar -xzf <image-name>.tar.gz -C <destination>
+
+    where <destination> is the destination partition (as mounted on the host).
+
+Note that builds with bitbake accumulate in the deployment directory.
+You may want to delete older irrelevant images after repeated builds.
+The very first build ever will take very long because a lot of one-time
+house-keeping and building has to happen. You want to have a powerful build machine.
+
+Note the SOURCE_THIS file to be used when going back to building with a new shell.
+
+The rootfs is fairly reasonable in completeness for basic efforts and
+contains a variety of basic tools for remote connection and
+mounting of NFS or other drives.
+
+
+Re-building VSDK APEX graphs (optional)
+=======================================
+
+The VSDK archive provides pre-built APEX graphs built with TCT compiler.
+The pre-built graphs allow building the VSDK Linux applications and modules
+without installing an APU compiler
+
+For re-building the APU graphs the user should perform the following steps:
+
+  - Independently install an APU compiler, outside Yocto. Please follow the
+    VSDK documentation for installing a standalone APU compiler
+
+  - Configure the Yocto build to use the installed APU compiler (previous step)
+    and re-build the VSDK image.
+    Along with the standard build using the pre-compiled graphs, the following
+    setting should be added in build folder's conf/local.conf
+
+        APU_COMPILER_NXP = "<path to the installed NXP APU compiler>"
+
+        or
+
+        APU_COMPILER_TCT = "<path to the installed TCT APU compiler>"
+
+    For example:
+
+        APU_COMPILER_NXP = "/home/user/APU_Compiler_v1.0"
+
+Note: when changing the configuration from pre-built graphs to buildable graph
+  or switching between NXP and TCT compilers, it is recommended to clean the
+  VSDK sources.
+
+
+VSDK Usage
+==========
+For the final image, the VSDK modules are automatically inserted at boot time.
+The VSDK demos are located in folder /vsdk/demos/
+The user can change the default install path by setting the desired location in
+conf/local.conf (e.g. build_s32v234evb_release/conf/local.conf), for example:
+
+    VSDK_OUTPUT_DIR_NAME="/usr/src/vsdk/demos"
+
+For details about how to run the VSDK demos, use the VSDK documentation
+delivered inside the VSDK archive: s32v234_sdk/docs and s32v234_sdk/ReleaseNotes.txt
