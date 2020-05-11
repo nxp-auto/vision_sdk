@@ -57,7 +57,7 @@ NXP external repositories adas.xml, please use:
 
     $: mkdir fsl-auto-yocto-vsdk
     $: cd fsl-auto-yocto-vsdk
-    $: repo init -u repo init -u https://source.codeaurora.org/external/autobsps32/extra/vision-sdk -b vision_sdk_rtm_1.6.0 -m adas.xml
+    $: repo init -u https://source.codeaurora.org/external/autobsps32/extra/vision-sdk -b vision_sdk_rtm_1.6.0 -m adas.xml
     $: repo sync
 
 This will download the sources for the NXP Auto Linux BSP23.0 intagrated into
@@ -97,7 +97,7 @@ Adding Vision SDK RTM 1.6.0 to S32V234 rootfs
 - Edit the file conf/local.conf  (e.g. build_s32v234evb_release/conf/local.conf)
   in your build folder to specify the path to the VSDK folder. For example:
 
-      FSL_LOCAL_MIRROR = "file:////opt/fsl_local_mirror/VisionSDK_S32V2_RTM_1_6_0"
+      FSL_LOCAL_MIRROR = "file:///opt/fsl_local_mirror/VisionSDK_S32V2_RTM_1_6_0"
 
   Note: the name of s32v234_sdk folder should not be added in the FSL_LOCAL_MIRROR.
   This is automatically appended in the meta-adas recipes.
@@ -122,13 +122,13 @@ Adding Vision SDK RTM 1.6.0 to S32V234 rootfs
   to re-build System Libraries.
   The re-build of System Libraries can be enforced by using the PRE_BUILT_SYSTEM_LIBS
   variable in conf/local.conf (e.g. build_s32v234evb_release/conf/local.conf):
-    * PRE_BUILT_SYSTEM_LIBS=0 rebuild System Libraries (default)
-    * PRE_BUILT_SYSTEM_LIBS=1 use pre-built System Libraries
+    * PRE_BUILT_SYSTEM_LIBS = "0" rebuild System Libraries (default)
+    * PRE_BUILT_SYSTEM_LIBS = "1" use pre-built System Libraries
   
   You can use pre-built System Libraries by adding the following line
   in the conf/local.conf (e.g. build_s32v234evb_release/conf/local.conf):
 
-      PRE_BUILT_SYSTEM_LIBS = 1
+      PRE_BUILT_SYSTEM_LIBS = "1"
 
 
 Adding GPU drivers to S32V234 rootfs
@@ -180,6 +180,10 @@ Make sure that any partitions on the card are properly unmounted before writing
 the card image, or you may have a corrupted card image in the end.
 Also make sure to properly "sync" the filesystem before ejecting the card to ensure
 all data has been written.
+
+
+Note that you must add the cse.bin file from s32v234_sdk/os/u-boot folder in the `boot` partition on SD card.
+
 
 To deploy only the rootfs to the target partition, run:
 
