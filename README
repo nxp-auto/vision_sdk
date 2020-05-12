@@ -60,7 +60,7 @@ NXP external repositories adas.xml, please use:
     $: repo init -u https://source.codeaurora.org/external/autobsps32/extra/vision-sdk -b vision_sdk_rtm_1.6.0 -m adas.xml
     $: repo sync
 
-This will download the sources for the NXP Auto Linux BSP23.0 intagrated into
+This will download the sources for the NXP Auto Linux BSP23.0 integrated into
 Vision SDK.
 
 NXP internal repositories adas-bitbucket.xml, please use:
@@ -160,7 +160,7 @@ To add GPU drivers to S32V234 rootfs, follow the steps as below:
 Build an image:
 ===============
 
-In the buid directory created by the setup script, you can run the command:
+In the build directory created by the setup script, you can run the command:
 
     $: bitbake fsl-image-vsdk
 
