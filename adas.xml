@@ -2,5 +2,5 @@
   <manifest>
   <include name="default.xml" />
 
-  <project remote="alb" revision="95bb92cdb327f494bde60af5a4bd567c83e0b10c" name="meta-adas" path="sources/meta-adas"/>
+  <project remote="alb" revision="735f0350292c5cb44258dbf766f412263d77b3bd" name="meta-adas" path="sources/meta-adas"/>
   </manifest>
