@@ -2,5 +2,5 @@
   <manifest>
   <include name="default.xml" />
 
-  <project remote="alb" revision="vision_sdk_rtm_1.7.0" name="meta-adas" path="sources/meta-adas"/>
+  <project remote="alb" revision="874192ba70fa9427c00bd488bf8c22c14d370fb4" name="meta-adas" path="sources/meta-adas"/>
   </manifest>
