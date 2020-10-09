@@ -1,4 +1,4 @@
-NXP Vision SDK (VSDK) RTM 1.6.0 Yocto Project Manifests
+NXP Vision SDK (VSDK) RTM 1.7.0 Yocto Project Manifests
     for Advanced driver-assistance systems (ADAS)
 ==========================================================
 
@@ -57,7 +57,7 @@ NXP external repositories adas.xml, please use:
 
     $: mkdir fsl-auto-yocto-vsdk
     $: cd fsl-auto-yocto-vsdk
-    $: repo init -u https://source.codeaurora.org/external/autobsps32/extra/vision-sdk -b vision_sdk_rtm_1.6.0 -m adas.xml
+    $: repo init -u https://source.codeaurora.org/external/autobsps32/extra/vision-sdk -b vision_sdk_rtm_1.7.0 -m adas.xml
     $: repo sync
 
 This will download the sources for the NXP Auto Linux BSP23.0 integrated into
@@ -67,12 +67,16 @@ NXP internal repositories adas-bitbucket.xml, please use:
 
     $: mkdir fsl-auto-yocto-vsdk
     $: cd fsl-auto-yocto-vsdk
-    $: repo init -u https://bitbucket.sw.nxp.com/scm/vswat/vsdk-manifest.git -b vision_sdk_rtm_1.6.0 -m adas-bitbucket.xml
+    $: repo init -u https://bitbucket.sw.nxp.com/scm/vswat/vsdk-manifest.git -b vision_sdk_rtm_1.7.0 -m adas-bitbucket.xml
     $: repo sync
 
 
 Creating a Build Directory for a NXP Vision SDK Yocto release:
 ==============================================================
+
+To install all prerequisites before starting any build, run:
+
+    $: ./sources/meta-alb/scripts/host-prepare.sh
 
 Now you can create a build directory in the Vision SDK Yocto root by running
 the command:
@@ -83,21 +87,21 @@ the command:
        <machine> is any Vsion SDK target (e.g. s32v234sbc, s32v234evb, s32v234bbmini etc).
 
 
-Adding Vision SDK RTM 1.6.0 to S32V234 rootfs
+Adding Vision SDK RTM 1.7.0 to S32V234 rootfs
 =============================================
 
-- The Vision SDK RTM 1.6.0 installer (VisionSDK_S32V2_RTM_1_6_0.bin file) should
+- The Vision SDK RTM 1.7.0 installer (VisionSDK_S32V2_RTM_1_7_0.bin file) should
   be available for download in the Automotive SW Vision Software release download
   section on:
     https://nxp.flexnetoperations.com/control/frse/product?plneID=713087
 
-- Install the Vision SDK RTM 1.6.0 for Yocto integration to a
-  folder of your choice (e.g. “/opt/fsl_local_mirror”):
+- Install the Vision SDK RTM 1.7.0 for Yocto integration to a
+  folder of your choice (e.g. /opt/fsl_local_mirror):
 
 - Edit the file conf/local.conf  (e.g. build_s32v234evb_release/conf/local.conf)
   in your build folder to specify the path to the VSDK folder. For example:
 
-      FSL_LOCAL_MIRROR = "file:///opt/fsl_local_mirror/VisionSDK_S32V2_RTM_1_6_0"
+      FSL_LOCAL_MIRROR = "file:///opt/fsl_local_mirror/VisionSDK_S32V2_RTM_1_7_0"
 
   Note: the name of s32v234_sdk folder should not be added in the FSL_LOCAL_MIRROR.
   This is automatically appended in the meta-adas recipes.

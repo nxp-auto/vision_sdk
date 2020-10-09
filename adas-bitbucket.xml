@@ -2,5 +2,5 @@
   <manifest>
   <include name="default-bitbucket.xml" />
   
-  <project remote="alb-bitbucket" revision="735f0350292c5cb44258dbf766f412263d77b3bd" name="meta-adas" path="sources/meta-adas"/>
+  <project remote="alb-bitbucket" revision="874192ba70fa9427c00bd488bf8c22c14d370fb4" name="meta-adas" path="sources/meta-adas"/>
   </manifest>
